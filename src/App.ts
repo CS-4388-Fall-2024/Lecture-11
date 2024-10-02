@@ -31,6 +31,16 @@ export class App extends gfx.GfxApp
 
         const axes = gfx.Geometry3Factory.createAxes();
 
+        // Create an ambient light that illuminates everything in the scene
+        const ambientLight = new gfx.AmbientLight(new gfx.Color(0.4, 0.4, 0.4));
+        
+        // Create a directional light that is infinitely far away (sunlight)
+        const directionalLight = new gfx.DirectionalLight(new gfx.Color(0.6, 0.6, 0.6));
+        directionalLight.position.set(1, 2, 1);
+
+
+        this.scene.add(ambientLight);
+        this.scene.add(directionalLight);
         this.scene.add(axes);
 
     }

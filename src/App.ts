@@ -48,7 +48,7 @@ export class App extends gfx.GfxApp
       
 
         this.createCylinderMesh(this.cylinder, 10, 2.0);
-        this.cylinder.material = new gfx.WireframeMaterial();
+        // this.cylinder.material = new gfx.WireframeMaterial();
         this.scene.add(this.cylinder);
 
     }
@@ -63,22 +63,32 @@ export class App extends gfx.GfxApp
 
     createCylinderMesh(mesh: gfx.Mesh3, numSegments: number, height: number){
         const vertices: gfx.Vector3[] = [];
+        const normals: gfx.Vector3[] = [];
         const indices: number[] = [];
 
         const angleIncrement = (Math.PI * 2) / numSegments;
 
-        for (let i=0; i<numSegments; i++){
+        for(let i=0; i <= numSegments; i++)
+        {
             const angle = i * angleIncrement;
 
-            vertices.push( new gfx.Vector3(Math.cos(angle), height/2, Math.sin(angle)));
-            vertices.push( new gfx.Vector3(Math.cos(angle), -height/2, Math.sin(angle)));
+            // Create two vertices that make up each column
+            vertices.push(new gfx.Vector3(Math.cos(angle), height/2, Math.sin(angle)));
+            vertices.push(new gfx.Vector3(Math.cos(angle), -height/2, Math.sin(angle)));
+        
+            // Create two normals that make up each column
+            normals.push(new gfx.Vector3(Math.cos(angle), 0, Math.sin(angle)));
+            normals.push(new gfx.Vector3(Math.cos(angle), 0, Math.sin(angle)));
         }
 
-        for (let i=0; i< numSegments; i++){
-            indices.push(i*2, i*2+1,i*2+2);
+        for(let i=0; i < numSegments; i++)
+        {
+            indices.push(i*2, i*2+2, i*2+1);
+            indices.push(i*2+1, i*2+2, i*2+3);
         }
 
         mesh.setVertices(vertices);
+        mesh.setNormals(normals);
         mesh.setIndices(indices);
         
 
